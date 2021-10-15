@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
                         if (buffer.size() >= historyMaxSize) buffer.poll();
                         buffer.add(city);
-                        raf.
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
