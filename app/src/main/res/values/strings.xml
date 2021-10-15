@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Weather</string>
+    <string name="logo">Weather</string>
+    <string name="hint">City</string>
+    <string name="main_button">Show</string>
+    <string name="no_user_input">Input city</string>
+    <string name="city_not_found">City not found</string>
+
+</resources>
