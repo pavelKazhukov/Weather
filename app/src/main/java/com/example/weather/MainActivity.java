@@ -1,14 +1,12 @@
 package com.example.weather;
 
 import android.annotation.SuppressLint;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.SharedMemory;
+import android.os.Build;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import org.json.JSONException;
@@ -18,26 +16,30 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText user_field;
     private Button main_button;
+    private Button history_button;
     private TextView result;
-    private final File internalStorageHistory = new File(getFilesDir(), "history");
-    private final int historyMaxSize = 50;
+    private File internalStorageHistory;
+    public static final int historyMaxSize = 50;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        result = findViewById(R.id.result);
         user_field = findViewById(R.id.user_field);
         main_button = findViewById(R.id.main_button);
-        result = findViewById(R.id.result);
+        history_button = findViewById(R.id.history_button);
+        internalStorageHistory = new File(getFilesDir(), "history");
 
         if (!internalStorageHistory.exists()) {
             try {
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         main_button.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
                 String user_field_text = user_field.getText().toString().trim();
@@ -56,26 +59,47 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     String city = user_field.getText().toString();
                     String key = "e619258fd8103ae3e0b0238be68e63cd";
-                    String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + key + "&units=metric";
+                    String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city +
+                            "&appid=" + key + "&units=metric";
 
-                    try (RandomAccessFile raf = new RandomAccessFile(internalStorageHistory, "rw")){
-                        Queue<String> buffer = new LinkedList<>();
-                        String currentStr;
-
-                        for (int i = 0; (currentStr = raf.readLine()) != null; i++) {
-                            buffer.add(currentStr);
-                        }
-
-                        if (buffer.size() >= historyMaxSize) buffer.poll();
-                        buffer.add(city);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
+                    saveRequest(city);
                     new GetURLData().execute(url);
                 }
             }
         });
+
+        history_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+                intent.putExtra("file", internalStorageHistory);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void saveRequest(String city) {
+        Queue<String> queue = new LinkedList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(internalStorageHistory))){
+            String currentLine;
+
+            while ((currentLine = reader.readLine()) != null) queue.add(currentLine);
+            if (queue.size() >= 50) queue.poll();
+            queue.add(city);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try(BufferedWriter writer = Files.newBufferedWriter(
+                Paths.get(String.valueOf(internalStorageHistory)), StandardOpenOption.TRUNCATE_EXISTING)) {
+            for (String element : queue) {
+                writer.write(element + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private class GetURLData extends AsyncTask<String, String, String> {
