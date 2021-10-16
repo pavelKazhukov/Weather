@@ -1,10 +1,12 @@
 package com.example.weather;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(main_button.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+
                 String user_field_text = user_field.getText().toString().trim();
                 if (user_field.getText().toString().trim().equals("")) {
                     Toast.makeText(MainActivity.this, R.string.no_user_input, Toast.LENGTH_SHORT).show();
@@ -161,12 +167,29 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else {
                     JSONObject jsonObject = new JSONObject(result);
-                    String Description = "Description: " + jsonObject.getJSONArray("weather").getJSONObject(0).getString("description");
-                    String Temperature = "Temperature: " + jsonObject.getJSONObject("main").getDouble("temp") + " C°";
-                    String Feels_like = "Feels like: " + jsonObject.getJSONObject("main").getDouble("feels_like") + " C°";
-                    String Wind_speed = "Wind speed: " + jsonObject.getJSONObject("wind").getDouble("speed") + " m/s";
 
-                    MainActivity.this.result.setText(Description + "\n" + Temperature + "\n" + Feels_like + "\n"  + Wind_speed);
+                    ArrayList<String> data = new ArrayList<>();
+                    data.add("Coordinates:       " + jsonObject.getJSONObject("coord").getDouble("lon") + "°, " +
+                            jsonObject.getJSONObject("coord").getDouble("lat") + "°");
+                    data.add("Description:       " + jsonObject.getJSONArray("weather").getJSONObject(0).getString("description"));
+                    data.add("Temperature:       " + jsonObject.getJSONObject("main").getDouble("temp") + " C°");
+                    data.add("Feels like:        " + jsonObject.getJSONObject("main").getDouble("feels_like") + " C°");
+                    data.add("Temperature Min:   " + jsonObject.getJSONObject("main").getDouble("temp_min") + " C°");
+                    data.add("Temperature Max:   " + jsonObject.getJSONObject("main").getDouble("temp_max") + " C°");
+                    data.add("Pressure:          " + jsonObject.getJSONObject("main").getInt("pressure") + " hPa");
+                    data.add("Humidity:          " + jsonObject.getJSONObject("main").getInt("humidity") + " %");
+                    data.add("Sea Level:         " + jsonObject.getJSONObject("main").getInt("sea_level") + " m");
+                    data.add("Ground Level:      " + jsonObject.getJSONObject("main").getInt("grnd_level") + " m");
+                    data.add("Visibility:        " + jsonObject.getInt("visibility") + " m");
+                    data.add("Wind speed:        " + jsonObject.getJSONObject("wind").getDouble("speed") + " m/s");
+                    data.add("Wind degree:       " + jsonObject.getJSONObject("wind").getInt("deg") + " °");
+                    data.add("Gusts:             " + jsonObject.getJSONObject("wind").getDouble("gust") + " m/s");
+
+                    StringBuilder info = new StringBuilder();
+                    for (String datum : data) {
+                        info.append(datum).append("\n");
+                    }
+                    MainActivity.this.result.setText(info);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
