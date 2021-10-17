@@ -1,14 +1,14 @@
 package com.example.weather;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.*;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import org.w3c.dom.Text;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -49,6 +49,18 @@ public class HistoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 clearFileInfo(internalStorageHistory);
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onItemClick(AdapterView<?> parent, View itemClicked, int position, long id) {
+                TextView textItem = (TextView) itemClicked;
+                String strItem = textItem.getText().toString();
+                Intent intent = new Intent(HistoryActivity.this, MainActivity.class);
+                intent.putExtra("clickedCity", strItem);
+                startActivity(intent);
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.example.weather;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -32,10 +33,13 @@ public class MainActivity extends AppCompatActivity {
     private File internalStorageHistory;
     public static final int historyMaxSize = 50;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
 
         result = findViewById(R.id.result);
         user_field = findViewById(R.id.user_field);
@@ -51,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        if (intent.hasExtra("clickedCity")) {
+            Bundle arguments = intent.getExtras();
+            user_field.setText((String) arguments.get("clickedCity"));
+            sendURL(user_field);
+        }
+
         main_button.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -63,13 +73,8 @@ public class MainActivity extends AppCompatActivity {
                 if (user_field.getText().toString().trim().equals("")) {
                     Toast.makeText(MainActivity.this, R.string.no_user_input, Toast.LENGTH_SHORT).show();
                 } else {
-                    String city = user_field.getText().toString();
-                    String key = "e619258fd8103ae3e0b0238be68e63cd";
-                    String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city +
-                            "&appid=" + key + "&units=metric";
-
-                    saveRequest(city);
-                    new GetURLData().execute(url);
+                    saveRequest(user_field.getText().toString());
+                    sendURL(user_field);
                 }
             }
         });
@@ -82,6 +87,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void sendURL(EditText user_field) {
+        String city = user_field.getText().toString();
+        String key = "e619258fd8103ae3e0b0238be68e63cd";
+        String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city +
+                "&appid=" + key + "&units=metric";
+
+        new GetURLData().execute(url);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
