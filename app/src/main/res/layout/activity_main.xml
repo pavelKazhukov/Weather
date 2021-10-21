@@ -8,25 +8,46 @@
         android:background="@color/black"
         tools:context=".MainActivity">
 
+    <View
+            android:layout_below="@id/logo"
+            android:layout_width="match_parent"
+            android:background="#40FFFFFF"
+            android:layout_height="1sp"/>
+
+    <View
+            android:layout_below="@id/temperature"
+            android:layout_marginTop="10sp"
+            android:layout_width="match_parent"
+            android:background="#40FFFFFF"
+            android:layout_height="1sp"/>
     <TextView
             android:text="@string/logo"
             android:textColor="@color/white"
-            android:textSize="30sp"
-            android:textAlignment="center"
+            android:textSize="35sp"
             android:fontFamily="@font/ubuntu_mono_bold"
-            android:layout_marginTop="40sp"
-            android:layout_width="match_parent"
+            android:layout_marginTop="10sp"
+            android:layout_marginStart="10sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/logo"/>
-
+    <TextView
+            android:id="@+id/temperature"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/history_button"
+            android:layout_marginTop="50sp"
+            android:layout_marginStart="10sp"
+            android:textColor="@color/white"
+            android:textSize="40sp"
+            android:fontFamily="@font/ubuntu_mono_bold"
+    />
     <EditText
             android:id="@+id/user_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/logo"
-            android:layout_marginTop="100sp"
-            android:layout_marginEnd="120sp"
-            android:layout_marginStart="20sp"
+            android:layout_marginTop="10sp"
+            android:layout_marginStart="190sp"
+            android:layout_marginEnd="80sp"
             android:ems="10"
             android:backgroundTint="@color/white"
             android:inputType="textPersonName"
@@ -36,38 +57,32 @@
             android:textColorHint="@color/textColorHint"
             android:textColorLink="@color/white"
             android:textColorHighlight="@color/white"/>
-
-    <Button
-            android:layout_below="@+id/logo"
-            android:layout_marginTop="100sp"
-            android:layout_marginStart="300sp"
-            android:layout_marginEnd="20sp"
+    <ImageButton
+            android:layout_marginStart="330sp"
+            android:layout_marginTop="10sp"
             android:id="@+id/main_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/ubuntu_mono_bold"
-            app:backgroundTint="@color/white"
-            android:text="@string/main_button"
-            android:textColor="@color/black"/>
+            android:layout_width="40sp"
+            android:layout_height="40sp"
+            app:backgroundTint="@color/black"
+            android:src="@android:drawable/ic_menu_search"/>
     <TextView
             android:id="@+id/result"
             android:textColor="@color/white"
             android:textSize="15sp"
             android:textAlignment="viewStart"
             android:fontFamily="@font/ubuntu_mono_bold"
-            android:layout_marginTop="45sp"
+            android:layout_marginTop="10sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/main_button"/>
-
-    <Button
-            android:text="@string/history"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_below="@+id/main_button"
+            android:layout_alignStart="@+id/user_field"/>
+    <ImageButton
+            android:layout_width="40sp"
+            android:layout_height="40sp"
+            android:layout_marginStart="370sp"
             android:layout_marginTop="10sp"
-            android:layout_marginStart="10sp"
             android:id="@+id/history_button"
-            android:fontFamily="@font/ubuntu_mono_bold"
-            app:backgroundTint="@color/white"
-            android:textColor="@color/black"/>
+            app:backgroundTint="@color/black"
+            android:src="@android:drawable/ic_menu_recent_history"/>
+
 </RelativeLayout>
