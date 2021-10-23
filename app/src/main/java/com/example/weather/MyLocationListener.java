@@ -21,16 +21,13 @@ public class MyLocationListener implements LocationListener {
         try {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, locationListener);
-            if (locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER) != null) {
+            if (locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER) != null)
                 imHere = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            } else imHere = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if (locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) != null)
+                imHere = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         } catch (SecurityException ex) {
             ex.printStackTrace();
         }
-    }
-
-    private static void checkEnabled() {
-
     }
 
     @Override

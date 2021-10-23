@@ -22,7 +22,10 @@
             android:layout_below="@+id/history_logo"
             android:layout_marginTop="50sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:dividerHeight="@dimen/twodp"
+            android:divider="@drawable/list_divider"
+    />
     <Button
             android:layout_marginTop="10sp"
             android:layout_marginStart="320sp"

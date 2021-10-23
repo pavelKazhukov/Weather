@@ -8,4 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="textColorHint">#FFFFFFFF</color>
+    <dimen name="twodp">10dp</dimen>
 </resources>

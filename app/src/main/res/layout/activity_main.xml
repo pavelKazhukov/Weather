@@ -10,16 +10,19 @@
 
     <View
             android:layout_below="@id/logo"
+            android:id="@+id/line_below_logo"
             android:layout_width="match_parent"
             android:background="#40FFFFFF"
             android:layout_height="1sp"/>
 
     <View
             android:layout_below="@id/temperature"
+            android:id="@+id/line_below_temperature"
             android:layout_marginTop="10sp"
             android:layout_width="match_parent"
             android:background="#40FFFFFF"
-            android:layout_height="1sp"/>
+            android:layout_height="1sp"
+            android:visibility="invisible"/>
     <TextView
             android:text="@string/logo"
             android:textColor="@color/white"
@@ -39,8 +42,7 @@
             android:layout_marginStart="10sp"
             android:textColor="@color/white"
             android:textSize="40sp"
-            android:fontFamily="@font/ubuntu_mono_bold"
-    />
+            android:fontFamily="@font/ubuntu_mono_bold"/>
     <EditText
             android:id="@+id/user_field"
             android:layout_width="match_parent"
@@ -84,5 +86,69 @@
             android:id="@+id/history_button"
             app:backgroundTint="@color/black"
             android:src="@android:drawable/ic_menu_recent_history"/>
+    <Button
+            android:fontFamily="@font/ubuntu_mono_bold"
+            app:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:layout_below="@id/line_below_temperature"
+            android:layout_marginTop="10sp"
+            android:layout_marginStart="61dp"
+            android:layout_width="50sp"
+            android:layout_height="50sp" android:id="@+id/forecast_button1" android:layout_alignParentStart="true"
+            android:visibility="invisible"/>
 
+    <Button
+            android:fontFamily="@font/ubuntu_mono_bold"
+            app:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:layout_below="@id/line_below_temperature"
+            android:layout_marginTop="10sp"
+            android:layout_toEndOf="@id/forecast_button1"
+            android:layout_marginStart="10sp"
+            android:layout_width="50sp"
+            android:layout_height="50sp" android:id="@+id/forecast_button2" android:visibility="invisible"/>
+
+    <Button
+            android:fontFamily="@font/ubuntu_mono_bold"
+            app:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:layout_below="@id/line_below_temperature"
+            android:layout_marginTop="10sp"
+            android:layout_toEndOf="@id/forecast_button2"
+            android:layout_marginStart="10sp"
+            android:layout_width="50sp"
+            android:layout_height="50sp" android:id="@+id/forecast_button3" android:visibility="invisible"/>
+
+    <Button
+            android:fontFamily="@font/ubuntu_mono_bold"
+            app:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:layout_below="@id/line_below_temperature"
+            android:layout_marginTop="10sp"
+            android:layout_toEndOf="@id/forecast_button3"
+            android:layout_marginStart="10sp"
+            android:layout_width="50sp"
+            android:layout_height="50sp" android:id="@+id/forecast_button4" android:visibility="invisible"/>
+
+    <Button
+            android:fontFamily="@font/ubuntu_mono_bold"
+            app:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:layout_below="@id/line_below_temperature"
+            android:layout_marginTop="10sp"
+            android:layout_toEndOf="@id/forecast_button4"
+            android:layout_marginStart="10sp"
+            android:layout_width="50sp"
+            android:layout_height="50sp" android:id="@+id/forecast_button5"
+            android:layout_alignParentEnd="true" android:layout_marginEnd="61dp" android:visibility="invisible"/>
+
+    <ListView
+            android:id="@+id/forecast_list"
+            android:layout_below="@+id/forecast_button1"
+            android:layout_marginTop="10sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/list_divider"
+            android:dividerHeight="@dimen/twodp"
+    />
 </RelativeLayout>
